@@ -1,2 +1,4 @@
-node_modules/ 
-nairobi_houses.db 
+node_modules/
+nairobi_houses.db
+resize-icons.js
+.env
