@@ -713,6 +713,7 @@ app.get('/api/admin/users/:id', authMiddleware, async (req, res) => {
 app.patch('/api/admin/users/:id/suspend', authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
+    if (req.params.id === req.user.id) return res.status(400).json({ error: 'You cannot suspend your own account' });
 
     const user = await get('SELECT is_suspended FROM users WHERE id = ?', [req.params.id]);
     const newStatus = user.is_suspended ? 0 : 1;
@@ -740,6 +741,7 @@ app.patch('/api/admin/users/:id/verify', authMiddleware, async (req, res) => {
 app.delete('/api/admin/users/:id', authMiddleware, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
+    if (req.params.id === req.user.id) return res.status(400).json({ error: 'You cannot delete your own account' });
 
     await run('DELETE FROM users WHERE id = ?', [req.params.id]);
     res.json({ message: 'User deleted' });
