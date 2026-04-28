@@ -13,9 +13,7 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 // Use persistent disk path on Render, fallback to local for development
-const DB_PATH = process.env.NODE_ENV === 'production'
-  ? '/data/nairobi_houses.db'
-  : './nairobi_houses.db';
+const DB_PATH = process.env.DB_PATH || './nairobi_houses.db';
 
 // Middleware
 app.use(cors());
