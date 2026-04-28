@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: nyumba-link-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000
+    disk:
+      name: nyumba-db
+      mountPath: /data
+      sizeGB: 1

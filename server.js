@@ -9,8 +9,13 @@ const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
 
 const app = express();
-const PORT = process.env.PORT || 3000;  // Changed to 3000
+const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+
+// Use persistent disk path on Render, fallback to local for development
+const DB_PATH = process.env.NODE_ENV === 'production'
+  ? '/data/nairobi_houses.db'
+  : './nairobi_houses.db';
 
 // Middleware
 app.use(cors());
@@ -23,7 +28,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Initialize SQLite Database
-const db = new sqlite3.Database('./nairobi_houses.db', (err) => {
+const db = new sqlite3.Database(DB_PATH, (err) => {
   if (err) {
     console.error('Database error:', err);
   } else {
